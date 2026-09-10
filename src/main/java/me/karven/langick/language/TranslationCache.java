@@ -28,9 +28,10 @@ public class TranslationCache {
     private @Nullable Map<@NonNull String, @NonNull String> loadTranslation(final @NonNull VersionedLanguage language) {
         final File versionDirectory = new File(cacheDirectory, language.version());
         final File languageFile = new File(versionDirectory, language.language() + ".json");
+        if (!languageFile.exists()) return null;
         try (
                 final Reader fileReader = new FileReader(languageFile);
-                final JsonReader jsonReader = new JsonReader(fileReader);
+                final JsonReader jsonReader = new JsonReader(fileReader)
                 ) {
             final Map<String, String> parsedJson = GSON.fromJson(jsonReader, TRANSLATION_TYPE);
             if (parsedJson == null) return null;
