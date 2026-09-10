@@ -8,7 +8,6 @@ import me.karven.langick.utility.Precondition;
 import me.karven.langick.utility.StringUtility;
 import org.apache.commons.io.FileUtils;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.NullUnmarked;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +41,10 @@ public class Langick {
 
     public Langick() {
         this(defaultCacheDirectory());
+    }
+
+    public void setUrlFormat(final @NonNull String urlFormat) {
+        this.urlFormat = urlFormat;
     }
 
     public Langick(final @NonNull File cacheDirectory) {
