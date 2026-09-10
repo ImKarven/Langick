@@ -1,6 +1,9 @@
 # Langick
 Langick is a library for resolving Minecraft translation keys to their strings in the respective language and Minecraft version.
 
+> [!NOTE]
+> Langick is not available to be installed yet. It is still under developement!
+
 # Example
 
 ## Code
