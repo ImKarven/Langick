@@ -8,6 +8,7 @@ import me.karven.langick.utility.Precondition;
 import me.karven.langick.utility.StringUtility;
 import org.apache.commons.io.FileUtils;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullUnmarked;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,7 +69,7 @@ public class Langick {
         }
     }
 
-    public CompletableFuture<Void> downloadLanguageAsync(final VersionedLanguage language) {
+    public @NonNull CompletableFuture<Void> downloadLanguageAsync(final VersionedLanguage language) {
         final CompletableFuture<Void> future = new CompletableFuture<>();
         executorService.execute(() -> {
             downloadLanguage(language);
