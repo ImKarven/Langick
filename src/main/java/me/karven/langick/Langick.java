@@ -35,7 +35,11 @@ public class Langick {
 
     public void downloadLanguage(final @NonNull String minecraftLanguage, final @NonNull String version) {
         final URL url = getDownloadURL(minecraftLanguage, version);
-        final File languageFile = new File(cacheDirectory, minecraftLanguage + ".json");
+        final File versionDirectory = new File(cacheDirectory, version);
+        if (!versionDirectory.mkdirs()) {
+            throw new RuntimeException("Failed to create version " + version + " directory");
+        }
+        final File languageFile = new File(versionDirectory, minecraftLanguage + ".json");
         try {
             FileUtils.copyURLToFile(url, languageFile, connectionTimeoutMillis, readTimeoutMillis);
         } catch (final IOException exception) {
