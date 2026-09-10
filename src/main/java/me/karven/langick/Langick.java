@@ -28,15 +28,15 @@ public class Langick {
     private final File cacheDirectory;
     private final ExecutorService executorService;
     private @NonNull String urlFormat = "https://assets.mcasset.cloud/${version}/assets/minecraft/lang/${language}.json";
-    private int connectionTimeoutMillis = 10000;
-    private int readTimeoutMillis = 10000;
+    private final AtomicInteger connectionTimeoutMillis = new AtomicInteger(10000);
+    private final AtomicInteger readTimeoutMillis = new AtomicInteger(10000);
 
     public void setConnectionTimeoutMillis(final int connectionTimeoutMillis) {
-        this.connectionTimeoutMillis = connectionTimeoutMillis;
+        this.connectionTimeoutMillis.set(connectionTimeoutMillis);
     }
 
     public void setReadTimeoutMillis(final int readTimeoutMillis) {
-        this.readTimeoutMillis = readTimeoutMillis;
+        this.readTimeoutMillis.set(readTimeoutMillis);
     }
 
     public Langick() {
@@ -66,7 +66,7 @@ public class Langick {
         final File languageFile = new File(versionDirectory, language.language() + ".json");
         if (languageFile.exists()) return;
         try {
-            FileUtils.copyURLToFile(url, languageFile, connectionTimeoutMillis, readTimeoutMillis);
+            FileUtils.copyURLToFile(url, languageFile, connectionTimeoutMillis.get(), readTimeoutMillis.get());
         } catch (final IOException exception) {
             throw new RuntimeException(exception);
         }
