@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class Langick {
 
-    private @NonNull String urlFormat = "https://mcasset.cloud/${version}/assets/minecraft/lang/${language}.json";
+    private @NonNull String urlFormat = "https://assets.mcasset.cloud/${version}/assets/minecraft/lang/${language}.json";
     private int connectionTimeoutMillis = 10000;
     private int readTimeoutMillis = 10000;
     private final File cacheDirectory;
