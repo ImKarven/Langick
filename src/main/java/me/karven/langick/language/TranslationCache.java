@@ -21,10 +21,20 @@ public class TranslationCache {
         this.cacheDirectory = cacheDirectory;
     }
 
+    /**
+     * Get all the translations of a language from cache or file if it is absent in cache
+     * @param language the language
+     * @return a Map containing all the translations or {@code null} if the language file does not exist/follow the language file format
+     */
     public @Nullable Map<String, String> getTranslations(final VersionedLanguage language)  {
         return translationCache.computeIfAbsent(language, this::loadTranslation);
     }
 
+    /**
+     * Load translations of a language from file to cache
+     * @param language the language to load
+     * @return a Map containing all the translations or {@code null} if the language file does not exist/follow the language file format
+     */
     private @Nullable Map<@NonNull String, @NonNull String> loadTranslation(final @NonNull VersionedLanguage language) {
         final File versionDirectory = new File(cacheDirectory, language.version());
         final File languageFile = new File(versionDirectory, language.language() + ".json");

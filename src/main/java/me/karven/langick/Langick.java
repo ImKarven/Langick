@@ -58,6 +58,10 @@ public class Langick {
         this.executorService = Executors.newFixedThreadPool(threadPoolSize, runnable -> new Thread(runnable, "LangickThread-" + THREAD_INDEX.getAndIncrement()));
     }
 
+    /**
+     * Download a language from the internet using the current thread and save it to a file
+     * @param language the language to download
+     */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void downloadLanguage(final VersionedLanguage language) {
         final URL url = getDownloadURL(language);
@@ -72,6 +76,11 @@ public class Langick {
         }
     }
 
+    /**
+     * Schedule a task to download a language on Langick thread pool
+     * @param language the language to download
+     * @return a future which is completed after the download is complete
+     */
     public @NonNull CompletableFuture<Void> downloadLanguageAsync(final VersionedLanguage language) {
         final CompletableFuture<Void> future = new CompletableFuture<>();
         executorService.execute(() -> {
@@ -81,6 +90,14 @@ public class Langick {
         return future;
     }
 
+    /**
+     * Get string of a translation key with a specified language
+     * @param language the language
+     * @param translationKey the translation key
+     * @return the string that correlates to the translation key
+     * @throws InvalidLanguageException if the provided language is invalid or not downloaded
+     * @throws InvalidTranslationKeyException if the translation key does not exist in the language
+     */
     public @NonNull String resolveTranslation(final VersionedLanguage language, final @NonNull String translationKey) throws InvalidLanguageException, InvalidTranslationKeyException {
         final Map<String, String> translations = translationCache.getTranslations(language);
         if (translations == null)
@@ -91,6 +108,11 @@ public class Langick {
         return resolvedString;
     }
 
+    /**
+     * Get the url to download a language file based on the current url format
+     * @param language the language
+     * @return an URL to download that language file
+     */
     private @NonNull URL getDownloadURL(final VersionedLanguage language) {
         final String stringUrl = StringUtility.format(urlFormat, Map.of("language", language.language(), "version", language.version()));
         try {
